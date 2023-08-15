@@ -14,7 +14,7 @@ async function getCoinPrices(comerce, type) {
                 $('tr.product-container').each((index, element) => {
                     const coinName = $(element).find('.nombre a').text().trim();
                     const coinWeight = $(element).find('.peso').text().trim();
-                    const coinPrice = $(element).find('.venta-precio .PricesalesPrice').text().trim();
+                    const coinPrice = $(element).find('.venta-precio').text().trim().substring(18).trim();
 
                     coinData.push({
                         name: coinName,
@@ -30,7 +30,7 @@ async function getCoinPrices(comerce, type) {
                 $('tr.product-container').each((index, element) => {
                     const coinName = $(element).find('.nombre a').text().trim();
                     const coinWeight = $(element).find('.peso').text().trim();
-                    const coinPrice = $(element).find('.venta-precio .PricesalesPrice').text().trim();
+                    const coinPrice = $(element).find('.venta-precio').text().trim().substring(18).trim();
 
                     coinData.push({
                         name: coinName,
@@ -54,4 +54,4 @@ async function getCoinPrices(comerce, type) {
 
 module.exports = {
     getCoinPrices
-};
+};  

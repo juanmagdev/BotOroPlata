@@ -16,7 +16,7 @@ app.get('/getPrices/Dracma/:type', async (req, res) => {
             res.status(500).json({ error: 'Error fetching prices' });
         }
     }else{
-        res.status(404).json({ error: 'Type not found' });
+        res.status(500).json({ error: 'Type not found' });
     }
 
 });
