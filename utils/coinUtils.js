@@ -4,6 +4,9 @@ const cheerio = require('cheerio');
 async function getCoinPrices(comerce, type) {
     try {
         const coinData = [];
+        const coinsToInclude = ['Britannia', 'Canguro', 'Arca', 'Krugerrand', 'Maple', 'Filarmónica', 
+                                'Eagle', 'Panda', 'Libertad', 'Lunar', 'Koala', 'Kookaburra', 'Malta']; 
+        const groupedCoinData = {};
 
         if (comerce === 'Dracma') {
             if (type === 'plata') {
@@ -16,14 +19,18 @@ async function getCoinPrices(comerce, type) {
                     const coinWeight = $(element).find('.peso').text().trim();
                     const coinPrice = $(element).find('.venta-precio').text().trim().substring(18).trim();
 
-                    coinData.push({
-                        name: coinName,
-                        weight: coinWeight,
-                        price: coinPrice
-                    });
+                    if(containsPopularCoinsSpanish(coinName, coinsToInclude)){
+                        coinData.push({
+                            name: coinName,
+                            weight: coinWeight,
+                            price: coinPrice
+                        });
+                    }
+
                 });
             }else if(type === 'oro'){
                 const response = await axios.get('https://www.dracmametales.com/precio-del-oro',);
+                
 
                 const $ = cheerio.load(response.data);
 
@@ -32,11 +39,14 @@ async function getCoinPrices(comerce, type) {
                     const coinWeight = $(element).find('.peso').text().trim();
                     const coinPrice = $(element).find('.venta-precio').text().trim().substring(18).trim();
 
-                    coinData.push({
-                        name: coinName,
-                        weight: coinWeight,
-                        price: coinPrice
-                    });
+                    if(containsPopularCoinsSpanish(coinName, coinsToInclude)){
+                        coinData.push({
+                            name: coinName,
+                            weight: coinWeight,
+                            price: coinPrice
+                        });
+                    }
+
                 });
             }
         }else if(comerce === 'Numismatica'){
@@ -50,6 +60,15 @@ async function getCoinPrices(comerce, type) {
         console.error('Error fetching data:', error);
         return null;
     }
+}
+
+function containsPopularCoinsSpanish(coinName, keywords) {
+    for (const keyword of keywords) {
+        if (coinName.includes(keyword)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 module.exports = {

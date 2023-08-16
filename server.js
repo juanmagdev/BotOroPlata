@@ -6,7 +6,7 @@ const app = express();
 const PORT = 3000;
 
 // Dracma Store
-app.get('/getPrices/Dracma/:type', async (req, res) => {
+app.get('/prices/dracma/:type', async (req, res) => {
     const type = req.params.type.toLowerCase();
     if(type === 'plata' || type === 'oro'){
         const prices = await getCoinPrices('Dracma', type);
